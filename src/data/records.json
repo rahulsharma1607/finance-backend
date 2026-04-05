@@ -1,0 +1,46 @@
+[
+  {
+    "id": "rec_001",
+    "amount": 4800,
+    "type": "income",
+    "category": "salary",
+    "date": "2026-04-01",
+    "note": "April salary",
+    "createdBy": "usr_admin_001",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  },
+  {
+    "id": "rec_002",
+    "amount": 950,
+    "type": "expense",
+    "category": "rent",
+    "date": "2026-04-02",
+    "note": "Office rent",
+    "createdBy": "usr_admin_001",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  },
+  {
+    "id": "rec_003",
+    "amount": 300,
+    "type": "expense",
+    "category": "software",
+    "date": "2026-04-03",
+    "note": "Tool subscription",
+    "createdBy": "usr_admin_001",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  },
+  {
+    "id": "rec_004",
+    "amount": 650,
+    "type": "income",
+    "category": "consulting",
+    "date": "2026-03-25",
+    "note": "Client advisory work",
+    "createdBy": "usr_admin_001",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  }
+]

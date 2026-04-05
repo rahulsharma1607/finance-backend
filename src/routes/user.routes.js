@@ -1,17 +1,21 @@
 const express = require("express");
-const router = express.Router();
 
 const {
-  getUsers,
-  createUser,
+  listUsers,
+  getUser,
+  createUserHandler,
+  updateUserHandler,
 } = require("../controllers/user.controller");
+const { requireAuth, requireRole } = require("../middleware/auth.middleware");
+const { ROLES } = require("../constants/roles");
 
-const { checkRole } = require("../middleware/auth.middleware");
+const router = express.Router();
 
-// GET → viewer, analyst, admin
-router.get("/", checkRole(["viewer", "analyst", "admin"]), getUsers);
+router.use(requireAuth);
 
-// POST → admin only
-router.post("/", checkRole(["admin"]), createUser);
+router.get("/", requireRole([ROLES.ADMIN]), listUsers);
+router.get("/:id", requireRole([ROLES.ADMIN]), getUser);
+router.post("/", requireRole([ROLES.ADMIN]), createUserHandler);
+router.patch("/:id", requireRole([ROLES.ADMIN]), updateUserHandler);
 
 module.exports = router;

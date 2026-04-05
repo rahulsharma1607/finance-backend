@@ -1,51 +1,108 @@
+const { ROLE_VALUES } = require("../constants/roles");
+const { createId } = require("../utils/id");
+const { validateUserPayload } = require("../utils/validation");
 const {
-  addUser,
   getAllUsers,
-  ROLES,
+  findUserById,
+  findUserByEmail,
+  createUser,
+  updateUser,
 } = require("../models/user.model");
 
-// GET users
-const getUsers = (req, res) => {
-  const users = getAllUsers();
-
+const listUsers = (req, res) => {
   res.json({
-    message: "List of users",
-    data: users,
+    data: getAllUsers(),
+    meta: {
+      availableRoles: ROLE_VALUES,
+    },
   });
 };
 
-// POST create user
-const createUser = (req, res) => {
-  const { name, role } = req.body;
+const getUser = (req, res) => {
+  const user = findUserById(req.params.id);
 
-  if (!name || !role) {
-    return res.status(400).json({
-      message: "Name and role are required",
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
     });
   }
 
-  if (!Object.values(ROLES).includes(role)) {
+  res.json({
+    data: user,
+  });
+};
+
+const createUserHandler = (req, res) => {
+  const { errors, data } = validateUserPayload(req.body);
+
+  if (errors.length > 0) {
     return res.status(400).json({
-      message: "Invalid role",
+      message: "Invalid user payload",
+      errors,
     });
   }
 
-  const newUser = {
-    id: Date.now(),
-    name,
-    role,
-    status: "active",
-  };
+  if (findUserByEmail(data.email)) {
+    return res.status(409).json({
+      message: "A user with this email already exists",
+    });
+  }
 
-  addUser(newUser);
+  const now = new Date().toISOString();
+  const user = createUser({
+    id: createId("usr"),
+    name: data.name,
+    email: data.email,
+    role: data.role,
+    status: data.status || "active",
+    createdAt: now,
+    updatedAt: now,
+  });
 
   res.status(201).json({
     message: "User created successfully",
-    data: newUser,
+    data: user,
+  });
+};
+
+const updateUserHandler = (req, res) => {
+  const existingUser = findUserById(req.params.id);
+
+  if (!existingUser) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  const { errors, data } = validateUserPayload(req.body, { allowPartial: true });
+
+  if (errors.length > 0) {
+    return res.status(400).json({
+      message: "Invalid user payload",
+      errors,
+    });
+  }
+
+  if (data.email && data.email !== existingUser.email && findUserByEmail(data.email)) {
+    return res.status(409).json({
+      message: "A user with this email already exists",
+    });
+  }
+
+  const updatedUser = updateUser(req.params.id, {
+    ...data,
+    updatedAt: new Date().toISOString(),
+  });
+
+  res.json({
+    message: "User updated successfully",
+    data: updatedUser,
   });
 };
 
 module.exports = {
-  getUsers,
-  createUser,
+  listUsers,
+  getUser,
+  createUserHandler,
+  updateUserHandler,
 };

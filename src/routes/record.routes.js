@@ -1,25 +1,23 @@
 const express = require("express");
-const router = express.Router();
 
 const {
-  getRecords,
-  createRecord,
-  removeRecord,
-  getSummary,
+  listRecords,
+  getRecord,
+  createRecordHandler,
+  updateRecordHandler,
+  deleteRecordHandler,
 } = require("../controllers/record.controller");
+const { requireAuth, requireRole } = require("../middleware/auth.middleware");
+const { ROLES } = require("../constants/roles");
 
-const { checkRole } = require("../middleware/auth.middleware");
+const router = express.Router();
 
-// GET → all records
-router.get("/", checkRole(["viewer", "analyst", "admin"]), getRecords);
+router.use(requireAuth);
 
-// ADD THIS (IMPORTANT)
-router.get("/summary", checkRole(["analyst", "admin"]), getSummary);
-
-// POST → admin only
-router.post("/", checkRole(["admin"]), createRecord);
-
-// DELETE → admin only
-router.delete("/:id", checkRole(["admin"]), removeRecord);
+router.get("/", requireRole([ROLES.VIEWER, ROLES.ANALYST, ROLES.ADMIN]), listRecords);
+router.get("/:id", requireRole([ROLES.VIEWER, ROLES.ANALYST, ROLES.ADMIN]), getRecord);
+router.post("/", requireRole([ROLES.ADMIN]), createRecordHandler);
+router.patch("/:id", requireRole([ROLES.ADMIN]), updateRecordHandler);
+router.delete("/:id", requireRole([ROLES.ADMIN]), deleteRecordHandler);
 
 module.exports = router;

@@ -1,13 +1,14 @@
 {
   "name": "finance---backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Finance data processing and access control backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "node test/run-tests.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rahul Sharma",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

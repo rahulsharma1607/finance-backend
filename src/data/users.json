@@ -1,0 +1,29 @@
+[
+  {
+    "id": "usr_admin_001",
+    "name": "System Admin",
+    "email": "admin@finance.local",
+    "role": "admin",
+    "status": "active",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  },
+  {
+    "id": "usr_analyst_001",
+    "name": "Insights Analyst",
+    "email": "analyst@finance.local",
+    "role": "analyst",
+    "status": "active",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  },
+  {
+    "id": "usr_viewer_001",
+    "name": "Dashboard Viewer",
+    "email": "viewer@finance.local",
+    "role": "viewer",
+    "status": "active",
+    "createdAt": "2026-04-05T00:00:00.000Z",
+    "updatedAt": "2026-04-05T00:00:00.000Z"
+  }
+]
